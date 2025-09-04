@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vẽ hình tròn và Tính diện tích</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        canvas {
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vẽ Hình Tròn và Tính Diện Tích</h1>
+
+    <label for="radiusInput">Nhập bán kính:</label>
+    <input type="number" id="radiusInput" placeholder="Ví dụ: 50">
+    <button onclick="drawCircleAndCalculateArea()">Vẽ và Tính</button>
+
+    <br>
+
+    <canvas id="myCanvas" width="400" height="400"></canvas>
+
+    <p id="result"></p>
+
+    <script>
+        function drawCircleAndCalculateArea() {
+            // Lấy các phần tử HTML
+            const radiusInput = document.getElementById('radiusInput');
+            const canvas = document.getElementById('myCanvas');
+            const resultElement = document.getElementById('result');
+            const context = canvas.getContext('2d');
+
+            // Lấy giá trị bán kính từ người dùng
+            const radius = parseFloat(radiusInput.value);
+
+            // Kiểm tra xem giá trị nhập vào có hợp lệ không
+            if (isNaN(radius) || radius <= 0) {
+                resultElement.innerText = 'Vui lòng nhập một bán kính hợp lệ (số dương).';
+                // Xóa canvas nếu nhập không hợp lệ
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                return;
+            }
+
+            // Xóa nội dung cũ trên canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Bắt đầu vẽ
+            context.beginPath();
+
+            // Vẽ hình tròn
+            // context.arc(x, y, bán kính, góc bắt đầu, góc kết thúc)
+            // Math.PI * 2 tương đương với 360 độ để vẽ một hình tròn hoàn chỉnh
+            context.arc(canvas.width / 2, canvas.height / 2, radius, 0, 2 * Math.PI);
+
+            // Tô màu cho hình tròn
+            context.fillStyle = 'lightblue';
+            context.fill();
+
+            // Vẽ đường viền cho hình tròn
+            context.strokeStyle = 'blue';
+            context.lineWidth = 2;
+            context.stroke();
+
+            // Tính toán diện tích
+            const area = Math.PI * Math.pow(radius, 2);
+
+            // Hiển thị kết quả
+            resultElement.innerText = `Diện tích của hình tròn là: ${area.toFixed(2)}`;
+        }
+    </script>
+
+</body>
+</html>
